@@ -5,12 +5,13 @@
 const User = require('../models/user');
 
 
-const { registerUser } = require('../services/authService');
+const { registerUser, loginUser } = require('../services/authService');
 
 
 
 
 const register = async (req, res) => {
+  console.log("Reached Controller")
 
   try {
     const user = await registerUser(req.body);
@@ -19,7 +20,7 @@ const register = async (req, res) => {
       success: true,
       message: "User registered successfully",
       user,
-      
+
     });
   } catch (error) {
     return res.status(400).json({
@@ -31,6 +32,31 @@ const register = async (req, res) => {
 }
 
 
+
+const login = async (req, res) => {
+
+  try {
+
+    const { email, password } = req.body;
+
+    const user = await loginUser({ email, password });
+
+    return res.status(200).json({
+      success: true,
+      message: "Login successful",
+      ...user,
+    });
+
+  } catch (error) {
+    return res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+}
+
+
 module.exports = {
-  register
+  register,
+  login
 }

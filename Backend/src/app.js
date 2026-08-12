@@ -9,6 +9,8 @@ const cookieParser = require('cookie-parser');
 
 const app = express();
 
+require('dotenv').config();
+
 // Security middleware
 app.use(helmet());
 
