@@ -30,7 +30,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // ==================== Routes Imports ====================
 
-const authRoutes = require("./routes/authRoutes")
+const authRoutes = require("./routes/authRoutes");
+const researchRoutes = require("./routes/researchRoutes");
 
 
 
@@ -58,8 +59,11 @@ app.get('/', (req, res) => {
 
 
 
-
+// Auth Routes
 app.use('/user', authRoutes);
+
+// Research Routes
+app.use('/research', researchRoutes)
 
 
 
