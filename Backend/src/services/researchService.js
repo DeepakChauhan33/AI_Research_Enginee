@@ -1,6 +1,10 @@
+
+// Import Research Job model
 const ResearchJob = require("../models/research");
 
 
+
+// Create a new research job
 
 const createResearchJob = async ({ userId, topic }) => {
 
@@ -15,6 +19,7 @@ const createResearchJob = async ({ userId, topic }) => {
 
 
 
+// Get all research jobs of a user
 
 const getUserResearchJobs = async (userId) => {
   const researchJobs = await ResearchJob.find({
@@ -28,9 +33,27 @@ const getUserResearchJobs = async (userId) => {
 
 
 
-//=============Importing Functions=============
 
+// Get One Research
+
+const getResearchById = async (researchId, userId) => {
+  const researchJob = await ResearchJob.findOne({
+    _id: researchId,
+    userId: userId,
+  });
+
+  if (!researchJob) {
+    throw new Error("Research not found");
+  }
+
+  return researchJob;
+};
+
+
+
+// Export research services 
 module.exports = {
   createResearchJob,
-  getUserResearchJobs
+  getUserResearchJobs,
+  getResearchById,
 };

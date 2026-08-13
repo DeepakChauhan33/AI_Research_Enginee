@@ -1,14 +1,10 @@
 
-
-
-
-const User = require('../models/user');
-
-
+// Import authentication services
 const { registerUser, loginUser } = require('../services/authService');
 
 
 
+// Register a new user
 
 const register = async (req, res) => {
   console.log("Reached Controller")
@@ -32,6 +28,8 @@ const register = async (req, res) => {
 }
 
 
+
+// // Login an existing user
 
 const login = async (req, res) => {
 
@@ -59,6 +57,7 @@ const login = async (req, res) => {
 
 
 
+// Get the currently authenticated user
 
 const getCurrentUser = async (req, res) => {
 
@@ -79,6 +78,9 @@ const getCurrentUser = async (req, res) => {
   }
 }
 
+
+
+//=============Expot Functions=============
 
 module.exports = {
   register,

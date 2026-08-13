@@ -1,10 +1,9 @@
 
+// Import research services
+const { createResearchJob, getUserResearchJobs, getResearchById } = require("../services/researchService");
 
 
-const { createResearchJob, getUserResearchJobs } = require("../services/researchService");
-
-
-
+// Create a new research job
 
 const createResearch = async (req, res) => {
   try {
@@ -38,7 +37,11 @@ const createResearch = async (req, res) => {
 
 
 
-const getResearche = async (req, res) => {
+
+
+// Get all research jobs of the authenticated user
+
+const getAlltResearche = async (req, res) => {
 
   try {
 
@@ -59,9 +62,42 @@ const getResearche = async (req, res) => {
 
 
 
-//=============Importing Functions=============
+
+// Get research bt ID
+
+const getResearch = async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+    const research = await getResearchById(
+      id,
+      req.user.userId
+    )
+
+    return res.status(200).json({
+      success: true,
+      research: research,
+    });
+
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    })
+  }
+}
+
+
+
+
+
+//=============Exporti Functions=============
 
 module.exports = {
   createResearch,
-  getResearche
+  getAlltResearche,
+  getResearch
+
 };

@@ -1,10 +1,15 @@
+
+// Import JWT for token verification
 const jwt = require('jsonwebtoken');
 
+
+
+// Verifying the users JWT before allowing access to protected routes
 
 const authMiddleware = (req, res, next) => {
 
   try {
-
+    
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -45,5 +50,5 @@ const authMiddleware = (req, res, next) => {
 }
 
 
-
+// Export authentication middleware
 module.exports = { authMiddleware };

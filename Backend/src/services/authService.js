@@ -1,15 +1,16 @@
 // BCRYPT for password hassing
 const bcrypt = require('bcryptjs');
 
-// JSON Web Token for Authentication and Authoiazation
+// Import JSON Web Token for Authentication and Authoiazation
 const jwt = require('jsonwebtoken');
 
-
-
+// Import User model
 const User = require('../models/user');
 
 
 
+
+// Register a new user
 
 const registerUser = async ({ name, email, password }) => {
 
@@ -39,6 +40,7 @@ const registerUser = async ({ name, email, password }) => {
 
 
 
+// Login an existing user
 
 const loginUser = async ({ email, password }) => {
 
@@ -82,8 +84,7 @@ const loginUser = async ({ email, password }) => {
 
 
 
-//=============Importing Functions=============
-
+// Export authentication services
 module.exports = {
   registerUser,
   loginUser,
