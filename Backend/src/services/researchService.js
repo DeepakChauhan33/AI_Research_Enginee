@@ -82,10 +82,15 @@ const updateResearchStatus = async (researchId, userId, status, currentStage) =>
   const researchJob = await ResearchJob.findOneAndUpdate(
     {
       _id: researchId,
-      userId: userId
+      userId: userId,
     },
     {
-      $set: { currentStage: status }
+      status,
+      currentStage,
+    },
+    {
+      new: true,
+      runValidators: true,
     }
   )
 
@@ -93,14 +98,15 @@ const updateResearchStatus = async (researchId, userId, status, currentStage) =>
     throw new Error("Research not found");
   }
 
-  console.log(researchJob)
-  // return researchJob;
+  // console.log(researchJob)
+  return researchJob;
 
 }
 
 
 
 // Export research services 
+
 module.exports = {
   createResearchJob,
   getUserResearchJobs,

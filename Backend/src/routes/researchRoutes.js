@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 // Import controllers
-const { createResearch, getAlltResearche, getResearch, deleteResearch, } = require('../controllers/researchController');
+const { createResearch, getAlltResearche, getResearch, deleteResearch, updateStatus, } = require('../controllers/researchController');
 
 // Import authentication middleware
 const { authMiddleware } = require("../middleware/authMiddleware")
@@ -13,6 +13,7 @@ const { authMiddleware } = require("../middleware/authMiddleware")
 router.post("/", authMiddleware, createResearch);
 router.get("/", authMiddleware, getAlltResearche);
 router.get("/:id", authMiddleware, getResearch);
-router.delete("/:id", authMiddleware, deleteResearch )
+router.delete("/:id", authMiddleware, deleteResearch);
+router.patch("/:id/status", authMiddleware, updateStatus);
 
 module.exports = router;

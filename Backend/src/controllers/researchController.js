@@ -118,25 +118,28 @@ const deleteResearch = async (req, res) => {
 
 
 
-// 
+// Update status of research
 
-const updateResearch = async (req, res) => {
+const updateStatus = async (req, res) => {
 
   try {
 
     const { id } = req.params;
+    const { status, currentStage } = req.body;
 
     const updatedResearch = await updateResearchStatus(
       id,
       req.user.userId,
-      req.user.status,
-      req.user.currentStage,
+      status,
+      currentStage,
     )
 
 
     return res.status(200).json({
-      success: true
-    })
+      success: true,
+      message: "Research status updated successfully",
+      research: updatedResearch,
+    });
 
   } catch (error) {
     return res.status(500).json({
@@ -157,5 +160,6 @@ module.exports = {
   getAlltResearche,
   getResearch,
   deleteResearch,
+  updateStatus,
 
 };
