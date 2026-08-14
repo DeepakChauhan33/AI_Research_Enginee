@@ -1,15 +1,12 @@
 
 // Import research services
-const { createResearchJob, getUserResearchJobs, getResearchById } = require("../services/researchService");
+const { createResearchJob, getUserResearchJobs, getResearchById, deleteResearchById, updateResearchStatus } = require("../services/researchService");
 
 
 // Create a new research job
 
 const createResearch = async (req, res) => {
   try {
-
-    console.log("REQ.USER:", req.user);
-    console.log("REQ.BODY:", req.body);
 
     const { topic } = req.body;
 
@@ -33,8 +30,6 @@ const createResearch = async (req, res) => {
 
   }
 };
-
-
 
 
 
@@ -63,7 +58,7 @@ const getAlltResearche = async (req, res) => {
 
 
 
-// Get research bt ID
+// Get research by ID
 
 const getResearch = async (req, res) => {
 
@@ -92,12 +87,75 @@ const getResearch = async (req, res) => {
 
 
 
+// Delete research by ID
 
-//=============Exporti Functions=============
+const deleteResearch = async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const deletedResearch = deleteResearchById(id, req.user.userId);
+
+    return res.status(200).json({
+      success: true,
+      message: "Research deleted successfully",
+      research: deletedResearch,
+    });
+
+
+  } catch (error) {
+
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    })
+
+  }
+
+}
+
+
+
+
+// 
+
+const updateResearch = async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const updatedResearch = await updateResearchStatus(
+      id,
+      req.user.userId,
+      req.user.status,
+      req.user.currentStage,
+    )
+
+
+    return res.status(200).json({
+      success: true
+    })
+
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    })
+
+  }
+}
+
+
+
+
+//============= Export Functions =============
 
 module.exports = {
   createResearch,
   getAlltResearche,
-  getResearch
+  getResearch,
+  deleteResearch,
 
 };
