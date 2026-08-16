@@ -105,6 +105,38 @@ const updateResearchStatus = async (researchId, userId, status, currentStage) =>
 
 
 
+
+// Update the research plan
+
+const updateResearchPlan = async (researchId, userId, tasks) => {
+
+  const researchJob = await ResearchJob.findOneAndUpdate(
+    {
+      _id: researchId,
+      userId: userId,
+    },
+    {
+      researchPlan: {
+        tasks,
+      },
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!researchJob) {
+    throw new Error("Research not found");
+  }
+
+  return researchJob;
+};
+
+
+
+
+
 // Export research services 
 
 module.exports = {
@@ -113,4 +145,5 @@ module.exports = {
   getResearchById,
   deleteResearchById,
   updateResearchStatus,
+  updateResearchPlan,
 };

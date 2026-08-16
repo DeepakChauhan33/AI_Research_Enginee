@@ -33,16 +33,44 @@ const researchJobSchema = new mongoose.Schema(
       ],
       default: "pending",
     },
-  },
 
+    // AI generated research plan
+    researchPlan: {
+      tasks: [
+        {
+          title: {
+            type: String,
+            required: true,
+          },
+
+          description: {
+            type: String,
+            required: true,
+          },
+
+          status: {
+            type: String,
+            enum: [
+              "pending",
+              "running",
+              "completed",
+              "failed",
+            ],
+            default: "pending",
+          },
+        },
+      ],
+    },
+  },
 
   {
     timestamps: true,
   }
+);
 
-)
+const ResearchJob = mongoose.model(
+  "ResearchJob",
+  researchJobSchema
+);
 
-
-const researchJob = mongoose.model("research", researchJobSchema);
-
-module.exports = researchJob;
+module.exports = ResearchJob;

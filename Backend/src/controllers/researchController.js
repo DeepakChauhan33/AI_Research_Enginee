@@ -1,6 +1,11 @@
 
 // Import research services
-const { createResearchJob, getUserResearchJobs, getResearchById, deleteResearchById, updateResearchStatus } = require("../services/researchService");
+const { createResearchJob, getUserResearchJobs,
+  getResearchById,
+  deleteResearchById,
+  updateResearchStatus,
+  updateResearchPlan,
+} = require("../services/researchService");
 
 
 // Create a new research job
@@ -153,6 +158,39 @@ const updateStatus = async (req, res) => {
 
 
 
+// 
+
+const updatePlan = async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+    const { tasks } = req.body;
+
+    const updatedPlan = await updateResearchPlan(
+      id,
+      req.user.userId,
+      tasks
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Research plan updated successfully",
+      research: updatedPlan
+    });
+
+  } catch (error) {
+
+    return res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+
+  }
+};
+
+
+
 //============= Export Functions =============
 
 module.exports = {
@@ -161,5 +199,6 @@ module.exports = {
   getResearch,
   deleteResearch,
   updateStatus,
+  updatePlan
 
 };
