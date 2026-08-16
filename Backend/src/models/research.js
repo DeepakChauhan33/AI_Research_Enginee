@@ -14,6 +14,11 @@ const researchJobSchema = new mongoose.Schema(
       trim: true,
     },
 
+    aiResponse: {
+      type: String,
+      default: null,
+    },
+
     status: {
       type: String,
       enum: ["queued", "running", "completed", "failed"],
