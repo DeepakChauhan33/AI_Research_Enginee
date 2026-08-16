@@ -32,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const authRoutes = require("./routes/authRoutes");
 const researchRoutes = require("./routes/researchRoutes");
+const aiRoutes = require("./routes/aiRoutes");
 
 
 
@@ -65,6 +66,8 @@ app.use('/user', authRoutes);
 // Research Routes
 app.use('/research', researchRoutes)
 
+// AI Routes
+app.use('/ai', aiRoutes)
 
 
 
