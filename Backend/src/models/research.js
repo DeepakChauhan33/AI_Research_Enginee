@@ -66,6 +66,50 @@ const researchJobSchema = new mongoose.Schema(
         },
       ],
     },
+
+
+    sources: [
+      {
+        url: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+
+        title: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+
+        sourceName: {
+          type: String,
+          required: true,
+          trim: true,
+        },
+
+        publishedAt: {
+          type: Date,
+        },
+
+        content: {
+          type: String,
+        },
+
+        status: {
+          type: String,
+          enum: [
+            "found",
+            "processing",
+            "processed",
+            "failed",
+          ],
+          default: "found",
+        },
+      },
+    ],
+
+
   },
 
   {

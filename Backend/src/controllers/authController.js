@@ -80,10 +80,30 @@ const getCurrentUser = async (req, res) => {
 
 
 
+
+// Logout User
+
+const logout = async (req, res) => {
+  try {
+    return res.status(200).json({
+      success: true,
+      message: "Logout Successful"
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+}
+
+
+
 //=============Expot Functions=============
 
 module.exports = {
   register,
   login,
-  getCurrentUser
+  getCurrentUser,
+  logout
 }
