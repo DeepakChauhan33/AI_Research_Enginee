@@ -11,6 +11,11 @@ const { authMiddleware } = require("../middleware/authMiddleware")
 // Public routes
 router.post('/register', register);
 router.post('/login', login);
+
+/** 
+ Logout: Frontend calls this route, then removes the stored JWT/token
+ and clears the user's authentication state.
+**/
 router.post('/logout', logout);
 
 

@@ -87,7 +87,7 @@ const logout = async (req, res) => {
   try {
     return res.status(200).json({
       success: true,
-      message: "Logout Successful"
+      message: "Logout Successful, Frontend have to call this route and remove stored JWT token"
     })
   } catch (error) {
     return res.status(500).json({
