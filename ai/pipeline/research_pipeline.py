@@ -34,9 +34,16 @@ class ResearchPipeline:
         self.citation_builder = citation_builder or CitationBuilder()
         self.report_linker = report_linker or ReportLinker()
 
-    def run(self, query: str) -> ResearchResult:
+    def run(self, query: str, progress_callback=None) -> ResearchResult:
+
+        def update_progress(stage):
+            if progress_callback:
+                progress_callback(stage)
 
         # Step 1: Planning
+
+        update_progress("planning")
+        
         tasks: list[ResearchTask] = self.planner.create_plan(query)
 
         if not tasks:
@@ -45,6 +52,8 @@ class ResearchPipeline:
         print(f"\nPlanner generated {len(tasks)} research tasks.")
 
         # Step 2: Research
+        update_progress("researching")
+
         sources: list[Source] = []
 
         for task in tasks:
@@ -57,6 +66,8 @@ class ResearchPipeline:
         print(f"Research found {len(sources)} sources.")
 
         # Step 3: Extraction
+        update_progress("extracting")
+
         evidences: list[Evidence] = []
 
         for source in sources:
@@ -69,6 +80,8 @@ class ResearchPipeline:
         print(f"Extraction produced {len(evidences)} evidence items.")
 
         # Step 4: Validation
+        update_progress("validating")
+
         validations: list[ValidationResult] = self.validator.validate(
             evidences=evidences,
             sources=sources
@@ -90,6 +103,8 @@ class ResearchPipeline:
         print(f"Generated {len(citations)} citations.")
 
         # Step 6: Report Generation
+        update_progress("generating_report")
+
         report = self.reporter.generate_report(
         tasks=tasks,
         evidences=evidences,

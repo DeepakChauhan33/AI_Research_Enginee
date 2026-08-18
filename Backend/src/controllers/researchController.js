@@ -8,6 +8,9 @@ const { createResearchJob, getUserResearchJobs,
 } = require("../services/researchService");
 
 
+const { processResearchJob } = require("../services/researchProcessor");
+
+
 // Create a new research job
 
 const createResearch = async (req, res) => {
@@ -15,14 +18,22 @@ const createResearch = async (req, res) => {
 
     const { topic } = req.body;
 
+
+    // Create the research job in MongoDB
     const researchJob = await createResearchJob({
       userId: req.user.userId,
       topic,
     });
 
+
+    // Start AI processing in the background
+    processResearchJob(researchJob._id);
+
+
+    // Return immediately without waiting for AI
     return res.status(201).json({
       success: true,
-      message: "Research job created successfully",
+      message: "Research job started successfully",
       research: researchJob,
     });
 

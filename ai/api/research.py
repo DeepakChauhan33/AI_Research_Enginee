@@ -17,7 +17,10 @@ pipeline = ResearchPipeline()
 def start_research(request: ResearchRequest):
 
     try:
-        result = pipeline.run(request.topic)
+        def update_stage(stage):
+            print(f"AI Stage: {stage}", flush=True)
+
+        result = pipeline.run(request.topic, progress_callback=update_stage)
 
         return {
             "success": True,
