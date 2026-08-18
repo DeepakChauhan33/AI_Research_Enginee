@@ -100,7 +100,7 @@ const deleteResearch = async (req, res) => {
 
     const { id } = req.params;
 
-    const deletedResearch = deleteResearchById(id, req.user.userId);
+    const deletedResearch = await deleteResearchById(id, req.user.userId);
 
     return res.status(200).json({
       success: true,

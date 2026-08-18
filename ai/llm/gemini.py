@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 from dotenv import load_dotenv
 from google import genai
@@ -6,7 +7,10 @@ from google import genai
 from ai.llm.base import LLM
 
 
-load_dotenv()
+# Load environment variables from the AI service .env file
+env_path = Path(__file__).resolve().parents[1] / ".env"
+load_dotenv(env_path)
+
 
 api_key = os.getenv("GOOGLE_API_KEY")
 

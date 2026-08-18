@@ -15,7 +15,7 @@ const researchJobSchema = new mongoose.Schema(
     },
 
     aiResponse: {
-      type: String,
+      type: mongoose.Schema.Types.Mixed,
       default: null,
     },
 

@@ -2,6 +2,9 @@
 // Import Research Job model
 const ResearchJob = require("../models/research");
 
+// Import function form aiService 
+const { startAIResearch } = require("../services/aiService");
+
 
 
 // Create a new research job
@@ -13,7 +16,54 @@ const createResearchJob = async ({ userId, topic }) => {
     topic,
   });
 
+  try {
+    // Send the research job to the AI service
+    const aiResult = await startAIResearch({
+      researchId: researchJob._id.toString(),
+      topic: researchJob.topic,
+    });
+
+    // Save the AI result back to the same research job
+    researchJob.aiResponse = aiResult.result;
+
+    researchJob.status = "completed";
+    researchJob.currentStage = "completed";
+
+    await researchJob.save();
+
+  } catch (error) {
+
+    // Mark the research job as failed if AI processing fails
+    researchJob.status = "failed";
+
+    await researchJob.save();
+
+    throw error;
+  }
+
   return researchJob;
+  // const researchJob = await ResearchJob.create({
+  //   userId,
+  //   topic,
+  // });
+
+
+  // // Send the research job to the AI service
+  // await startAIResearch({
+  //   researchId: researchJob._id.toString(),
+  //   topic: researchJob.topic,
+  // });
+
+
+  // // Save the AI result back to the same research job
+  // researchJob.aiResponse = aiResult.result;
+
+  // researchJob.status = "completed";
+  // researchJob.currentStage = "completed";
+
+  // await researchJob.save();
+
+  // return researchJob;
 };
 
 

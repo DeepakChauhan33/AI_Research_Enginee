@@ -1,16 +1,32 @@
-const axios = require("axios");
+const AI_SERVICE_URL = "http://localhost:8001";
 
-const generateAIResponse = async (prompt) => {
-  const response = await axios.post(
-    "http://127.0.0.1:8001/generate",
-    {
-      prompt,
-    }
-  );
 
-  return response.data;
+const startAIResearch = async ({ researchId, topic }) => {
+  const response = await fetch(`${AI_SERVICE_URL}/ai/research`, {
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json",
+    },
+
+    body: JSON.stringify({
+      researchId,
+      topic,
+    }),
+  });
+
+
+  if (!response.ok) {
+    throw new Error("AI service request failed");
+  }
+
+
+  const data = await response.json();
+
+  return data;
 };
 
+
 module.exports = {
-  generateAIResponse,
+  startAIResearch,
 };
