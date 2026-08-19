@@ -1,3 +1,5 @@
+import requests
+
 from fastapi import APIRouter, HTTPException
 
 from ai.pipeline.research_pipeline import ResearchPipeline
@@ -17,10 +19,30 @@ pipeline = ResearchPipeline()
 def start_research(request: ResearchRequest):
 
     try:
+
         def update_stage(stage):
+
             print(f"AI Stage: {stage}", flush=True)
 
-        result = pipeline.run(request.topic, progress_callback=update_stage)
+
+            print(f"Calling Node: PATCH {url}", flush=True)
+
+            response = requests.patch(
+                f"http://localhost:8000/research/{request.researchId}/ai-status",
+                json={
+                    "currentStage": stage
+                },
+                timeout=10
+            )
+            
+
+            response.raise_for_status()
+
+
+        result = pipeline.run(
+            request.topic,
+            progress_callback=update_stage
+        )
 
         return {
             "success": True,
@@ -30,6 +52,7 @@ def start_research(request: ResearchRequest):
         }
 
     except Exception as error:
+
         raise HTTPException(
             status_code=500,
             detail=str(error),

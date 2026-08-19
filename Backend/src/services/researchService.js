@@ -184,6 +184,34 @@ const updateResearchStatus = async (researchId, userId, status, currentStage) =>
 
 
 
+// Update research stage from the AI service
+
+const updateResearchAIStage = async (researchId, currentStage) => {
+
+  const researchJob = await ResearchJob.findByIdAndUpdate(
+    researchId,
+    {
+      status: "running",
+      currentStage,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!researchJob) {
+    throw new Error("Research not found");
+  }
+
+  return researchJob;
+};
+
+
+
+
+
+
 // Update the research plan
 
 const updateResearchPlan = async (researchId, userId, tasks) => {
@@ -214,6 +242,52 @@ const updateResearchPlan = async (researchId, userId, tasks) => {
 
 
 
+// Get report of a research job
+
+const getResearchReport = async (researchId, userId) => {
+
+  const researchJob = await ResearchJob.findOne({
+    _id: researchId,
+    userId,
+  });
+
+  if (!researchJob) {
+    throw new Error("Research not found");
+  }
+
+  if (!researchJob.aiResponse) {
+    throw new Error("Research report is not available");
+  }
+
+  return researchJob.aiResponse.report;
+};
+
+
+
+
+// Mark research job as failed
+const markResearchFailed = async (researchId, errorMessage) => {
+  const researchJob = await ResearchJob.findByIdAndUpdate(
+    researchId,
+    {
+      status: "failed",
+      errorMessage,
+    },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  if (!researchJob) {
+    throw new Error("Research not found");
+  }
+
+  return researchJob;
+};
+
+
+
 
 // Export research services 
 
@@ -224,4 +298,7 @@ module.exports = {
   deleteResearchById,
   updateResearchStatus,
   updateResearchPlan,
+  updateResearchAIStage,
+  getResearchReport,  
+  markResearchFailed
 };

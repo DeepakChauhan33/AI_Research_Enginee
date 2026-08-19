@@ -39,6 +39,13 @@ const researchJobSchema = new mongoose.Schema(
       default: "pending",
     },
 
+
+    errorMessage: {
+      type: String,
+      default: null,
+    },
+
+
     // AI generated research plan
     researchPlan: {
       tasks: [

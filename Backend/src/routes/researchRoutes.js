@@ -8,7 +8,10 @@ const { createResearch,
   getResearch,
   deleteResearch,
   updateStatus,
-  updatePlan
+  updatePlan,
+  updateAIStatus,
+  getReport,
+
 } = require('../controllers/researchController');
 
 // Import authentication middleware
@@ -23,8 +26,9 @@ router.delete("/:id", authMiddleware, deleteResearch);
 router.patch("/:id/status", authMiddleware, updateStatus);
 router.patch("/:id/plan", authMiddleware, updatePlan);
 
+router.get("/:id/report", authMiddleware, getReport);
+
+// Internal AI status update
+router.patch("/:id/ai-status", updateAIStatus);
+
 module.exports = router;
-
-// 6a7d68a03178b244457fd482
-
-// 6a7ec95bcf58e692ac7d05fc

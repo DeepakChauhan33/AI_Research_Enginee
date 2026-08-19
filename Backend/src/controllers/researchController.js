@@ -5,6 +5,9 @@ const { createResearchJob, getUserResearchJobs,
   deleteResearchById,
   updateResearchStatus,
   updateResearchPlan,
+  updateResearchAIStage,
+  getResearchReport,
+  markResearchFailed
 } = require("../services/researchService");
 
 
@@ -168,6 +171,52 @@ const updateStatus = async (req, res) => {
 
 
 
+// Update AI status
+
+const updateAIStatus = async (req, res) => {
+  try {
+
+    const { id } = req.params;
+    const { currentStage } = req.body;
+
+    if (!currentStage) {
+      return res.status(400).json({
+        success: false,
+        message: "currentStage is required",
+      });
+    }
+
+    console.log(
+      `AI Stage Update | Research: ${id} | Stage: ${currentStage}`
+    );
+
+    const updatedResearch = await updateResearchAIStage(
+      id,
+      currentStage
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Research AI stage updated successfully",
+      research: updatedResearch,
+    });
+
+  } catch (error) {
+
+    console.error("AI status update failed:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+
+  }
+};
+
+
+
+
+
 
 // 
 
@@ -202,6 +251,41 @@ const updatePlan = async (req, res) => {
 
 
 
+
+
+
+// Get research report
+
+const getReport = async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const report = await getResearchReport(
+      id,
+      req.user.userId
+    );
+
+    return res.status(200).json({
+      success: true,
+      report,
+    });
+
+  } catch (error) {
+
+    return res.status(404).json({
+      success: false,
+      message: error.message,
+    });
+
+  }
+};
+
+
+
+
+
 //============= Export Functions =============
 
 module.exports = {
@@ -210,6 +294,8 @@ module.exports = {
   getResearch,
   deleteResearch,
   updateStatus,
-  updatePlan
+  updatePlan,
+  updateAIStatus,
+  getReport
 
 };
