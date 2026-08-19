@@ -7,6 +7,8 @@ const { createResearchJob, getUserResearchJobs,
   updateResearchPlan,
   updateResearchAIStage,
   getResearchReport,
+  getResearchSources,
+  
   markResearchFailed
 } = require("../services/researchService");
 
@@ -285,6 +287,37 @@ const getReport = async (req, res) => {
 
 
 
+// Get research sources
+
+const getSources = async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const sources = await getResearchSources(
+      id,
+      req.user.userId
+    );
+
+    return res.status(200).json({
+      success: true,
+      sources,
+    });
+
+  } catch (error) {
+
+    return res.status(404).json({
+      success: false,
+      message: error.message,
+    });
+
+  }
+};
+
+
+
+
 
 //============= Export Functions =============
 
@@ -296,6 +329,7 @@ module.exports = {
   updateStatus,
   updatePlan,
   updateAIStatus,
-  getReport
+  getReport,
+  getSources
 
 };

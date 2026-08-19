@@ -147,6 +147,27 @@ const processResearchJob = async (researchJobId) => {
     }
 
 
+    // Save research sources
+    if (
+      aiResult.result.report &&
+      aiResult.result.report.citations
+    ) {
+
+      researchJob.sources = aiResult.result.report.citations.map(
+        (citation) => ({
+          url: citation.url,
+          title: citation.title,
+          sourceName: citation.publisher || "Unknown",
+          publishedAt: citation.published_date
+            ? new Date(citation.published_date)
+            : undefined,
+          status: "found",
+        })
+      );
+
+    }
+
+
     // Mark the research as completed
     researchJob.status = "completed";
     researchJob.currentStage = "completed";
@@ -181,9 +202,6 @@ const processResearchJob = async (researchJobId) => {
       );
 
     }
-
-
-    throw error;
   }
 };
 

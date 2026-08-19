@@ -265,6 +265,29 @@ const getResearchReport = async (researchId, userId) => {
 
 
 
+// Get report of a research job
+
+const getResearchSources = async (researchId, userId) => {
+
+  const researchJob = await ResearchJob.findOne({
+    _id: researchId,
+    userId,
+  });
+
+  if (!researchJob) {
+    throw new Error("Research not found");
+  }
+
+  if (!researchJob.aiResponse) {
+    throw new Error("Research report is not available");
+  }
+
+  return researchJob.sources;
+};
+
+
+
+
 // Mark research job as failed
 const markResearchFailed = async (researchId, errorMessage) => {
   const researchJob = await ResearchJob.findByIdAndUpdate(
@@ -300,5 +323,7 @@ module.exports = {
   updateResearchPlan,
   updateResearchAIStage,
   getResearchReport,  
+  getResearchSources,
+  
   markResearchFailed
 };

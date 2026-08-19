@@ -11,6 +11,7 @@ const { createResearch,
   updatePlan,
   updateAIStatus,
   getReport,
+  getSources
 
 } = require('../controllers/researchController');
 
@@ -27,6 +28,9 @@ router.patch("/:id/status", authMiddleware, updateStatus);
 router.patch("/:id/plan", authMiddleware, updatePlan);
 
 router.get("/:id/report", authMiddleware, getReport);
+
+router.get("/:id/source", authMiddleware, getSources);
+
 
 // Internal AI status update
 router.patch("/:id/ai-status", updateAIStatus);
